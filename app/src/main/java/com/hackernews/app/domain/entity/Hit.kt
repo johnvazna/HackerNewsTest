@@ -2,11 +2,10 @@ package com.hackernews.app.domain.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 /** */
 @Entity(tableName = "hints")
-data class Hint(
+data class Hit(
     val created_at: String,
     val title: String? = null,
     val url: String? = null,

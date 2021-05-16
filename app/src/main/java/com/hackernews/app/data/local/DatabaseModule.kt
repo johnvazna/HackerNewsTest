@@ -10,6 +10,6 @@ val databaseModule: Module = module {
     single { ApplicationDatabase(androidContext()) }
 
     /* */
-    single { get<ApplicationDatabase>().hintDao() }
+    single { get<ApplicationDatabase>().hitDao() }
 
 }

@@ -5,21 +5,21 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.hackernews.app.domain.entity.Hint
+import com.hackernews.app.domain.entity.Hit
 
 @Dao
-interface HintDao {
+interface HitDao {
 
     @Query("SELECT * FROM hints")
-    fun getAllHints(): LiveData<List<Hint>>
+    fun getAllHints(): LiveData<List<Hit>>
 
     @Query("SELECT * FROM hints WHERE story_id = :story_id")
-    fun getHint(story_id: String): LiveData<Hint>
+    fun getHit(story_id: String): LiveData<Hit>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(hints: List<Hint>)
+    suspend fun insertAll(hits: List<Hit>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(hint: Hint)
+    suspend fun insert(hit: Hit)
 
 }

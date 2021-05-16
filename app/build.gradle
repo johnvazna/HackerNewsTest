@@ -20,8 +20,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "API_URL", "\"https://hn.algolia.com/api/v1/\""
+        }
         release {
             minifyEnabled false
+            buildConfigField "String", "API_URL", "\"https://hn.algolia.com/api/v1/\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -48,6 +52,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
     implementation "io.arrow-kt:arrow-core:$arrow_version"
+
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$scalars_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version_convert"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor_version"
 
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
