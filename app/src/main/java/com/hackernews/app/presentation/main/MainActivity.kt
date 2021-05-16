@@ -1,7 +1,8 @@
-package com.hackernews.app
+package com.hackernews.app.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hackernews.app.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
