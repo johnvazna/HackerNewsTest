@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hackernews.app.data.local.dao.HintDao
-import com.hackernews.app.domain.entity.Hint
+import com.hackernews.app.data.local.dao.HitDao
+import com.hackernews.app.domain.entity.Hit
 
-@Database(entities = [Hint::class], version = 1, exportSchema = false)
+@Database(entities = [Hit::class], version = 1, exportSchema = false)
 abstract class ApplicationDatabase : RoomDatabase() {
 
-    abstract fun hintDao(): HintDao
+    abstract fun hitDao(): HitDao
 
     companion object {
 
