@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface HitService {
     @GET("search_by_date?query=android")
-    suspend fun getHits(): Response<Hit>
+    suspend fun getHits(): Response<List<Hit>>
 }
