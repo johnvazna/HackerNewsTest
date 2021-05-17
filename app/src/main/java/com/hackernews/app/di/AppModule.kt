@@ -11,8 +11,9 @@ import org.koin.core.context.startKoin
 fun HackerApplication.initKoin() {
 
     val sharedModules = getSharedModules()
+    val featureModules = getFeatureModules()
     val dataModules = getDataModules()
-    val modules = sharedModules + dataModules
+    val modules = sharedModules + featureModules + dataModules
 
     startKoin {
         androidLogger()
