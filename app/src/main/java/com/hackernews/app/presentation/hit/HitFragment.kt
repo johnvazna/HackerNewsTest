@@ -1,7 +1,6 @@
 package com.hackernews.app.presentation.hit
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -28,7 +27,18 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
             FragmentHitBinding = FragmentHitBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
+        setupActions()
         setupAdapters()
+        executeGetHits()
+    }
+
+    /** */
+    private fun setupActions() {
+        binding.swipeView.setOnRefreshListener(::onRefreshSwipeListener)
+    }
+
+    /** */
+    private fun onRefreshSwipeListener() {
         executeGetHits()
     }
 
@@ -57,17 +67,14 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
     private fun setHitsStatusObserver() =
         Observer<GetHitsStatus> {
             when (it) {
-                is Status.Loading -> manageGetHitsLoading()
                 is Status.Done -> manageGetHitsDone(it.value.hits)
                 is Status.Failed -> manageGetHitsFailure(it.failure)
             }
-        }
 
-    /** */
-    private fun manageGetHitsLoading() {
-        binding.viewLoading.visibility = View.VISIBLE
-        binding.rvHits.visibility = View.INVISIBLE
-    }
+            if (binding.swipeView.isRefreshing) {
+                binding.swipeView.isRefreshing = false
+            }
+        }
 
     /** */
     private fun manageGetHitsFailure(failure: GetHitsFailure) {
@@ -79,8 +86,6 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
-        binding.rvHits.visibility = View.VISIBLE
-        binding.viewLoading.visibility = View.INVISIBLE
         setDataHitsRecyclerView(hits)
     }
 
