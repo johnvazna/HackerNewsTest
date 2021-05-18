@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hackernews.app.data.local.entity.Hit
 import com.hackernews.app.databinding.FragmentHitBinding
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsStatus
+import com.hackernews.app.presentation.adapters.hit.HitAdapter
 import com.hackernews.app.presentation.base.BaseFragment
 import com.hackernews.app.utils.Status
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -16,12 +19,33 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     private val hitViewModel: HitViewModel by viewModel()
+    private var hits: ArrayList<Hit> = arrayListOf()
+    private val hitAdapter by lazy {
+        HitAdapter(::onHitClickListener)
+    }
 
     override fun createViewBinding(inflater: LayoutInflater, container: ViewGroup?):
             FragmentHitBinding = FragmentHitBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
+        setupAdapters()
         executeGetHits()
+    }
+
+    /** */
+    private fun setupAdapters() {
+        binding.rvHits.apply {
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                )
+            )
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = hitAdapter
+        }
+
+        hitAdapter.submitList(hits)
     }
 
     /** */
@@ -41,10 +65,8 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     /** */
     private fun manageGetHitsLoading() {
-        binding.apply {
-            viewLoading.visibility = View.VISIBLE
-            rvHits.visibility = View.INVISIBLE
-        }
+        binding.viewLoading.visibility = View.VISIBLE
+        binding.rvHits.visibility = View.INVISIBLE
     }
 
     /** */
@@ -57,16 +79,21 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
-        binding.apply {
-            rvHits.visibility = View.VISIBLE
-            viewLoading.visibility = View.INVISIBLE
-        }
+        binding.rvHits.visibility = View.VISIBLE
+        binding.viewLoading.visibility = View.INVISIBLE
         setDataHitsRecyclerView(hits)
     }
 
     /** */
-    private fun setDataHitsRecyclerView(hits: List<Hit>) {
-        Toast.makeText(requireContext(), "${hits.size}", Toast.LENGTH_SHORT).show()
+    private fun setDataHitsRecyclerView(data: List<Hit>) {
+        hits.clear()
+        hits.addAll(data)
+        hitAdapter.notifyDataSetChanged()
+    }
+
+    /** */
+    private fun onHitClickListener(hit: Hit) {
+        //Setup webView
     }
 
 }
