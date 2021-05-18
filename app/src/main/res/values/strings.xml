@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HackerNews</string>
+    
+    <!-- Item -->
+    <string name="item_crated_at">- %s</string>
+    
 </resources>
