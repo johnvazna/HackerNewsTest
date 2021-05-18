@@ -5,7 +5,7 @@ import java.util.ArrayList
 
 /** */
 data class AuthorResponse(
-    @SerializedName("value") val value: String? = null,
-    @SerializedName("matchLevel") val matchLevel: String? = null,
-    @SerializedName("matchedWords") val matchedWords: ArrayList<String>? = null,
+    @SerializedName("value") val value: String?,
+    @SerializedName("matchLevel") val matchLevel: String?,
+    @SerializedName("matchedWords") val matchedWords: ArrayList<String>?,
 )

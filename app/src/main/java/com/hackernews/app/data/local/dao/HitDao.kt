@@ -5,16 +5,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.hackernews.app.domain.entity.Hit
+import com.hackernews.app.data.local.entity.Hit
 
 @Dao
 interface HitDao {
 
-    @Query("SELECT * FROM hints")
-    fun getAllHints(): LiveData<List<Hit>>
+    @Query("SELECT * FROM hits")
+    fun getHits(): List<Hit>
 
-    @Query("SELECT * FROM hints WHERE story_id = :story_id")
-    fun getHit(story_id: String): LiveData<Hit>
+    @Query("SELECT * FROM hits WHERE story_id = :story_id")
+    fun getHitById(story_id: Long): LiveData<Hit>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(hits: List<Hit>)
