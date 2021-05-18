@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hackernews.app.data.local.dao.HitDao
-import com.hackernews.app.domain.entity.Hit
+import com.hackernews.app.data.local.entity.Hit
 
 @Database(entities = [Hit::class], version = 1, exportSchema = false)
 abstract class ApplicationDatabase : RoomDatabase() {
