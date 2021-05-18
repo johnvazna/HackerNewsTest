@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 /** */
 @Entity(tableName = "hits")
 data class Hit(
-    @ColumnInfo(name = "created_at") val created_at: String?,
-    @ColumnInfo(name = "title") val title: String?,
+    @ColumnInfo(name = "created_at") var created_at: String?,
+    @ColumnInfo(name = "title") var title: String?,
     @ColumnInfo(name = "url") val url: String?,
     @ColumnInfo(name = "author") val author: String?,
     @ColumnInfo(name = "points") val points: Int?,

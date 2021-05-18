@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.hackernews.app.data.local.entity.Hit
-import kotlinx.android.synthetic.main.hit_item.view.*
+import com.hackernews.app.utils.TimeFormat
 
 class HitAdapter(private val hitActionListener: (Hit) -> Unit) :
     ListAdapter<Hit, HitViewHolder>(SelectHitCallBack) {
@@ -14,8 +14,9 @@ class HitAdapter(private val hitActionListener: (Hit) -> Unit) :
 
     override fun onBindViewHolder(holder: HitViewHolder, position: Int) {
         val hit: Hit = currentList[position]
-        if (hit.title != null) holder.itemView.tvTitle.text =
-            hit.title else holder.itemView.tvTitle.text = hit.story_title
+        if (hit.title == null) hit.title = hit.story_title else hit.title
+        val time = hit.created_at?.let { TimeFormat.getTimeAgo(hit.created_at_i!!) }
+        hit.created_at = time
         holder.bind(hit)
     }
 
