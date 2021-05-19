@@ -3,6 +3,7 @@ package com.hackernews.app
 import android.app.Application
 import android.content.Context
 import com.hackernews.app.di.initKoin
+import com.hackernews.network.initConnectivityReceiverBroadcastReceiver
 
 class HackerApplication: Application() {
 
@@ -22,6 +23,7 @@ class HackerApplication: Application() {
         super.onCreate()
         applicationContext()
         initKoin()
+        initConnectivityReceiverBroadcastReceiver()
     }
 
 }

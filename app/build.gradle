@@ -45,6 +45,9 @@ android {
 
 dependencies {
 
+    //MODULE
+    implementation project(path: ":shared-pool:network")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
 
     implementation "androidx.core:core-ktx:$core_version"
