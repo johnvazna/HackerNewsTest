@@ -1,11 +1,14 @@
 package com.hackernews.app.di.feature.hit
 
-import com.hackernews.app.data.remote.services.HitService
+import com.hackernews.app.data.ApplicationDatabase
+import com.hackernews.app.data.hit.HitRepositoryImpl
+import com.hackernews.app.data.hit.data_source.local.HitDataSourceLocal
+import com.hackernews.app.data.hit.data_source.remote.HitDataSourceRemote
+import com.hackernews.app.data.hit.data_source.remote.HitService
 import com.hackernews.app.domain.hit.HitRepository
-import com.hackernews.app.domain.hit.HitRepositoryImpl
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsUseCase
 import com.hackernews.app.presentation.hit.HitViewModel
-import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -23,13 +26,36 @@ val hitModule: Module = module {
     /** REPOSITORY **/
     single<HitRepository> {
         HitRepositoryImpl(
-            context = androidContext(),
-            hitDao = get(),
-            hitService = get(),
+            hitHitDataSourceLocal = get(),
+            hitHitDataSourceRemote = get(),
         )
     }
 
+    /** DATA SOURCE */
+    /* LOCAL */
+    single {
+        HitDataSourceLocal(
+            hitDao = get(),
+        )
+    }
+
+    /* REMOTE */
+    single {
+        HitDataSourceRemote(
+            hitApiService = get(),
+        )
+    }
+
+    /** DAO */
+    single {
+        ApplicationDatabase
+            .getDatabase(androidApplication())
+            .hitDao()
+    }
+
     /** API SERVICE **/
-    single<HitService> { get<Retrofit>().create(HitService::class.java) }
+    single<HitService> {
+        get<Retrofit>().create(HitService::class.java)
+    }
 
 }

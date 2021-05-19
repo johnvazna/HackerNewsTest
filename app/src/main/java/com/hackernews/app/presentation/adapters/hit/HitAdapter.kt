@@ -3,7 +3,7 @@ package com.hackernews.app.presentation.adapters.hit
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.hackernews.app.data.local.entity.Hit
+import com.hackernews.app.domain.hit.entity.Hit
 import com.hackernews.app.utils.TimeFormat
 
 class HitAdapter(private val hitActionListener: (Hit) -> Unit) :

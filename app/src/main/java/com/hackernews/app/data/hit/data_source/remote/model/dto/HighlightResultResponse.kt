@@ -1,4 +1,4 @@
-package com.hackernews.app.data.remote.entity
+package com.hackernews.app.data.hit.data_source.remote.model.dto
 
 import com.google.gson.annotations.SerializedName
 
