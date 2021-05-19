@@ -6,7 +6,7 @@
 
         <variable
             name="hit"
-            type="com.hackernews.app.data.local.entity.Hit" />
+            type="com.hackernews.app.domain.hit.entity.Hit" />
     </data>
 
     <androidx.cardview.widget.CardView

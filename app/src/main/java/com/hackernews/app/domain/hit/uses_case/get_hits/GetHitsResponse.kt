@@ -1,6 +1,6 @@
 package com.hackernews.app.domain.hit.uses_case.get_hits
 
-import com.hackernews.app.data.local.entity.Hit
+import com.hackernews.app.domain.hit.entity.Hit
 
 /** */
 data class GetHitsResponse(

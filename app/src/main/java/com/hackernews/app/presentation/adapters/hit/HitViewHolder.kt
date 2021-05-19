@@ -3,8 +3,8 @@ package com.hackernews.app.presentation.adapters.hit
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.hackernews.app.data.local.entity.Hit
 import com.hackernews.app.databinding.HitItemBinding
+import com.hackernews.app.domain.hit.entity.Hit
 
 class HitViewHolder(
     private val binding: HitItemBinding,

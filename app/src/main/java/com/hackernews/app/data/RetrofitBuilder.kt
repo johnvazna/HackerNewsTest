@@ -1,4 +1,4 @@
-package com.hackernews.app.data.remote
+package com.hackernews.app.data
 
 import com.google.gson.GsonBuilder
 import com.hackernews.app.BuildConfig

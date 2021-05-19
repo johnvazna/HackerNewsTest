@@ -18,7 +18,6 @@ class HitViewModel(
 
     /** */
     fun getHitsAsLiveData(): LiveData<GetHitsStatus> = flow<GetHitsStatus> {
-        emit(Status.Loading())
         getHitsUseCase.run()
             .onLeft { emit(Status.Failed(it)) }
             .onRight { emit(Status.Done(it)) }

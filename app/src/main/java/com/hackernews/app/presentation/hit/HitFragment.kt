@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hackernews.app.data.local.entity.Hit
 import com.hackernews.app.databinding.FragmentHitBinding
+import com.hackernews.app.domain.hit.entity.Hit
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsStatus
 import com.hackernews.app.presentation.adapters.hit.HitAdapter
@@ -18,7 +18,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     private val hitViewModel: HitViewModel by viewModel()
-    private var hits: ArrayList<Hit> = arrayListOf()
+    private var hitEntities: ArrayList<Hit> = arrayListOf()
     private val hitAdapter by lazy {
         HitAdapter(::onHitClickListener)
     }
@@ -55,7 +55,7 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
             adapter = hitAdapter
         }
 
-        hitAdapter.submitList(hits)
+        hitAdapter.submitList(hitEntities)
     }
 
     /** */
@@ -70,10 +70,6 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
                 is Status.Done -> manageGetHitsDone(it.value.hits)
                 is Status.Failed -> manageGetHitsFailure(it.failure)
             }
-
-            if (binding.swipeView.isRefreshing) {
-                binding.swipeView.isRefreshing = false
-            }
         }
 
     /** */
@@ -82,18 +78,27 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
             is GetHitsFailure.DetailsFailure -> failure.details
         }
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        setCompleteRefresh()
     }
 
     /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
         setDataHitsRecyclerView(hits)
+        setCompleteRefresh()
     }
 
     /** */
     private fun setDataHitsRecyclerView(data: List<Hit>) {
-        hits.clear()
-        hits.addAll(data)
+        hitEntities.clear()
+        hitEntities.addAll(data)
         hitAdapter.notifyDataSetChanged()
+    }
+
+    /** */
+    private fun setCompleteRefresh() {
+        if (binding.swipeView.isRefreshing) {
+            binding.swipeView.isRefreshing = false
+        }
     }
 
     /** */
