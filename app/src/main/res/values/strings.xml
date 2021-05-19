@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">HackerNews</string>
+
+    <!-- General -->
+    <string name="general_back">Back</string>
     
     <!-- Item -->
     <string name="item_crated_at">- %s</string>
