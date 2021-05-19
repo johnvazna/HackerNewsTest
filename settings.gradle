@@ -1,2 +1,4 @@
 rootProject.name = "HackerNews"
 include ':app'
+include ':shared-pool'
+include ':shared-pool:network'

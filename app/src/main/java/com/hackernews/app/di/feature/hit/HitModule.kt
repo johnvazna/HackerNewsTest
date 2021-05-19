@@ -28,6 +28,7 @@ val hitModule: Module = module {
         HitRepositoryImpl(
             hitHitDataSourceLocal = get(),
             hitHitDataSourceRemote = get(),
+            networkConnectionRepository = get(),
         )
     }
 

@@ -7,23 +7,27 @@ import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsResponse
 import com.hackernews.app.utils.Either
 import com.hackernews.app.utils.onRight
+import com.hackernews.network.repository.NetworkConnectionRepository
 
 /** */
 class HitRepositoryImpl(
     private val hitHitDataSourceLocal: HitDataSourceLocal,
     private val hitHitDataSourceRemote: HitDataSourceRemote,
-) : HitRepository {
+    networkConnectionRepository: NetworkConnectionRepository,
+) : HitRepository,
+    NetworkConnectionRepository by networkConnectionRepository {
 
     /** */
     override suspend fun getHits(): Either<GetHitsFailure, GetHitsResponse> {
-        //Detected internet
-        val remoteResponse = hitHitDataSourceRemote.getHits()
-            .onRight { hitHitDataSourceLocal.saveHits(it.hits) }
-        if (remoteResponse.isRight) {
-            if (remoteResponse.rightValue().hits.isEmpty())
-                return remoteResponse
-        }
+        if (isOnline) {
+            val remoteResponse = hitHitDataSourceRemote.getHits()
+                .onRight { hitHitDataSourceLocal.saveHits(it.hits) }
+            if (remoteResponse.isRight) {
+                if (remoteResponse.rightValue().hits.isEmpty())
+                    return remoteResponse
+            }
 
+        }
         return hitHitDataSourceLocal.getHits()
     }
 
