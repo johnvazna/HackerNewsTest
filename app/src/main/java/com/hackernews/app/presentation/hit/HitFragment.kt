@@ -3,9 +3,12 @@ package com.hackernews.app.presentation.hit
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hackernews.app.R
 import com.hackernews.app.databinding.FragmentHitBinding
 import com.hackernews.app.domain.hit.entity.Hit
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
@@ -103,7 +106,8 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     /** */
     private fun onHitClickListener(hit: Hit) {
-        //Setup webView
+        val bundle = bundleOf("hit" to hit)
+        findNavController().navigate(R.id.action_hitFragment_to_hitDetailFragment, bundle)
     }
 
 }

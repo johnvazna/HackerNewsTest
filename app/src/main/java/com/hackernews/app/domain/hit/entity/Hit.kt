@@ -1,5 +1,7 @@
 package com.hackernews.app.domain.hit.entity
 
+import java.io.Serializable
+
 data class Hit(
     var created_at: String?,
     var title: String?,
@@ -15,4 +17,4 @@ data class Hit(
     val parent_id: Long?,
     val created_at_i: Long?,
     val objectID: String?,
-)
+): Serializable
