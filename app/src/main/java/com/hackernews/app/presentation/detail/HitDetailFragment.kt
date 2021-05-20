@@ -27,7 +27,6 @@ class HitDetailFragment : BaseFragment<FragmentHitDetailBinding>() {
         val hit = arguments?.get("hit") as Hit
 
         initWebView()
-        setWebClient()
         hit.story_url?.let { loadUrl(it) }
     }
 
@@ -49,25 +48,6 @@ class HitDetailFragment : BaseFragment<FragmentHitDetailBinding>() {
                 handler?.proceed()
             }
         }
-    }
-
-    /** */
-    private fun setWebClient() {
-        /*binding.webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(
-                view: WebView,
-                newProgress: Int
-            ) {
-                super.onProgressChanged(view, newProgress)
-                progressBar.progress = newProgress
-                if (newProgress < MAX_PROGRESS && progressBar.visibility == ProgressBar.GONE) {
-                    progressBar.visibility = ProgressBar.VISIBLE
-                }
-                if (newProgress == MAX_PROGRESS) {
-                    progressBar.visibility = ProgressBar.GONE
-                }
-            }
-        }*/
     }
 
 }
