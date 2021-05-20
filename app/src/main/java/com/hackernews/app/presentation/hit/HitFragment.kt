@@ -1,16 +1,14 @@
 package com.hackernews.app.presentation.hit
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hackernews.app.R
 import com.hackernews.app.databinding.FragmentHitBinding
 import com.hackernews.app.domain.hit.entity.Hit
 import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitFailure
@@ -20,6 +18,7 @@ import com.hackernews.app.presentation.adapters.hit.CallBackItemTouch
 import com.hackernews.app.presentation.adapters.hit.HitAdapter
 import com.hackernews.app.presentation.adapters.hit.HitTouchHelper
 import com.hackernews.app.presentation.base.BaseFragment
+import com.hackernews.app.presentation.detail.HitDetailActivity
 import com.hackernews.app.utils.Status
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -101,8 +100,9 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
 
     /** */
     private fun onHitClickListener(hit: Hit) {
-        val bundle = bundleOf("hit" to hit)
-        findNavController().navigate(R.id.action_hitFragment_to_hitDetailFragment, bundle)
+        val intent = Intent(requireContext(), HitDetailActivity::class.java)
+        intent.putExtra("hit", hit)
+        startActivity(intent)
     }
 
     /** */
