@@ -5,10 +5,8 @@ import android.net.http.SslError
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.webkit.SslErrorHandler
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import com.hackernews.app.databinding.FragmentHitDetailBinding
 import com.hackernews.app.domain.hit.entity.Hit
 import com.hackernews.app.presentation.base.BaseFragment
@@ -55,21 +53,21 @@ class HitDetailFragment : BaseFragment<FragmentHitDetailBinding>() {
 
     /** */
     private fun setWebClient() {
-        binding.webView.webChromeClient = object : WebChromeClient() {
+        /*binding.webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(
                 view: WebView,
                 newProgress: Int
             ) {
                 super.onProgressChanged(view, newProgress)
-                binding.progressBar.progress = newProgress
-                if (newProgress < MAX_PROGRESS && binding.progressBar.visibility == ProgressBar.GONE) {
-                    binding.progressBar.visibility = ProgressBar.VISIBLE
+                progressBar.progress = newProgress
+                if (newProgress < MAX_PROGRESS && progressBar.visibility == ProgressBar.GONE) {
+                    progressBar.visibility = ProgressBar.VISIBLE
                 }
                 if (newProgress == MAX_PROGRESS) {
-                    binding.progressBar.visibility = ProgressBar.GONE
+                    progressBar.visibility = ProgressBar.GONE
                 }
             }
-        }
+        }*/
     }
 
 }

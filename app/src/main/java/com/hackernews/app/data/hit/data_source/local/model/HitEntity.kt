@@ -23,8 +23,8 @@ data class HitEntity(
     @ColumnInfo(name = "parent_id") val parent_id: Long?,
     @ColumnInfo(name = "created_at_i") val created_at_i: Long?,
     @ColumnInfo(name = "objectID") val objectID: String?,
-
-    ) {
+    @ColumnInfo(name = "isDelete") var isDelete: Boolean,
+) {
 
     /** */
     fun toHit(): Hit =
@@ -42,7 +42,7 @@ data class HitEntity(
             story_url,
             parent_id,
             created_at_i,
-            objectID
+            objectID,
         )
 
     /** */
@@ -59,12 +59,13 @@ data class HitEntity(
                 hit.story_text,
                 hit.comment_text,
                 hit.num_comments,
-                hit.story_id,
+                hit.story_id!!,
                 hit.story_title,
                 hit.story_url,
                 hit.parent_id,
                 hit.created_at_i,
-                hit.objectID
+                hit.objectID,
+                false
             )
 
     }
