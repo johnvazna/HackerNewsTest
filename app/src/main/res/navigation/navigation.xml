@@ -7,16 +7,5 @@
     <fragment
         android:id="@+id/hitFragment"
         android:name="com.hackernews.app.presentation.hit.HitFragment"
-        android:label="@string/app_name">
-        <action
-            android:id="@+id/action_hitFragment_to_hitDetailFragment"
-            app:destination="@id/hitDetailFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
-            app:popUpTo="@id/hitFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/hitDetailFragment"
-        android:name="com.hackernews.app.presentation.detail.HitDetailFragment"
-        android:label="@string/general_back" />
+        android:label="@string/app_name"/>
 </navigation>
