@@ -6,6 +6,7 @@ import com.hackernews.app.data.hit.data_source.local.HitDataSourceLocal
 import com.hackernews.app.data.hit.data_source.remote.HitDataSourceRemote
 import com.hackernews.app.data.hit.data_source.remote.HitService
 import com.hackernews.app.domain.hit.HitRepository
+import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitUseCase
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsUseCase
 import com.hackernews.app.presentation.hit.HitViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -18,16 +19,22 @@ import retrofit2.Retrofit
 val hitModule: Module = module {
 
     /* */
-    viewModel { HitViewModel(getHitsUseCase = get()) }
+    viewModel {
+        HitViewModel(
+            getHitsUseCase = get(),
+            deleteHitUseCase = get()
+        )
+    }
 
     /** USE CASE **/
     factory { GetHitsUseCase(hitRepository = get()) }
+    factory { DeleteHitUseCase(hitRepository = get()) }
 
     /** REPOSITORY **/
     single<HitRepository> {
         HitRepositoryImpl(
-            hitHitDataSourceLocal = get(),
-            hitHitDataSourceRemote = get(),
+            hitDataSourceLocal = get(),
+            hitDataSourceRemote = get(),
             networkConnectionRepository = get(),
         )
     }

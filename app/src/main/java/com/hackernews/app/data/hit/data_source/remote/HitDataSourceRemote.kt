@@ -3,6 +3,8 @@ package com.hackernews.app.data.hit.data_source.remote
 import com.hackernews.app.data.hit.HitDataSource
 import com.hackernews.app.data.hit.data_source.remote.model.dto.HitItemResponse
 import com.hackernews.app.domain.hit.entity.Hit
+import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitFailure
+import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitResponse
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsResponse
 import com.hackernews.app.utils.Either
@@ -12,6 +14,7 @@ class HitDataSourceRemote(
     private val hitApiService: HitService
 ) : HitDataSource {
 
+    /** */
     override suspend fun getHits(): Either<GetHitsFailure, GetHitsResponse> {
         return try {
             val response = retrofitApiCall { hitApiService.getHits() }
@@ -23,6 +26,11 @@ class HitDataSourceRemote(
             val failure = GetHitsFailure.DetailsFailure(message)
             Either.Left(failure)
         }
+    }
+
+    /** */
+    override suspend fun deleteHit(hit: Hit): Either<DeleteHitFailure, DeleteHitResponse> {
+        TODO()
     }
 
     private fun toHit(hitItemResponse: HitItemResponse): Hit {

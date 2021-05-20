@@ -11,7 +11,7 @@ data class HitItemResponse(
     @SerializedName("story_text") val story_text: String?,
     @SerializedName("comment_text") val comment_text: String?,
     @SerializedName("num_comments") val num_comments: Int?,
-    @SerializedName("story_id") val story_id: Long,
+    @SerializedName("story_id") val story_id: Long?,
     @SerializedName("story_title") val story_title: String?,
     @SerializedName("story_url") val story_url: String?,
     @SerializedName("parent_id") val parent_id: Long?,

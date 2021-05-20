@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.hackernews.app.data.hit.data_source.local.model.HitDao
 import com.hackernews.app.data.hit.data_source.local.model.HitEntity
 
-@Database(entities = [HitEntity::class], version = 1, exportSchema = false)
+@Database(entities = [HitEntity::class], version = 3, exportSchema = false)
 abstract class ApplicationDatabase : RoomDatabase() {
 
     /** */
@@ -25,8 +25,8 @@ abstract class ApplicationDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ApplicationDatabase::class.java,
-                    "hacker_database"
-                ).build()
+                    "hacker_database",
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

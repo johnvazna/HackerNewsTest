@@ -11,7 +11,7 @@ data class Hit(
     val story_text: String?,
     val comment_text: String?,
     val num_comments: Int?,
-    val story_id: Long,
+    val story_id: Long?,
     val story_title: String?,
     val story_url: String?,
     val parent_id: Long?,

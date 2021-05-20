@@ -9,55 +9,91 @@
             type="com.hackernews.app.domain.hit.entity.Hit" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <FrameLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
+            android:id="@+id/background"
+            android:background="@color/red"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="120dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:maxLines="2"
-                android:text="@{hit.title}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@{hit.author}"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tvTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:text="@string/item_delete"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvCreatedAt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@{@string/item_crated_at(hit.created_at)}"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvAuthor"
-                app:layout_constraintStart_toEndOf="@+id/tvAuthor"
-                app:layout_constraintTop_toTopOf="@+id/tvAuthor" />
+        </RelativeLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/foregroundView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-    </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/normalView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:padding="10dp"
+                android:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:maxLines="2"
+                        android:text="@{hit.title}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvAuthor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="@{hit.author}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvCreatedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@{@string/item_crated_at(hit.created_at)}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvAuthor"
+                        app:layout_constraintStart_toEndOf="@+id/tvAuthor"
+                        app:layout_constraintTop_toTopOf="@+id/tvAuthor" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </layout>

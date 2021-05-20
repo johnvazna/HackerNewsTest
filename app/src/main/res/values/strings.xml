@@ -5,6 +5,7 @@
     <string name="general_back">Back</string>
     
     <!-- Item -->
+    <string name="item_delete">Delete</string>
     <string name="item_crated_at">- %s</string>
     
 </resources>

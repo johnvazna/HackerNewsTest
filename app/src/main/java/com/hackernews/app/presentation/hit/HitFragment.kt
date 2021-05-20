@@ -7,21 +7,25 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hackernews.app.R
 import com.hackernews.app.databinding.FragmentHitBinding
 import com.hackernews.app.domain.hit.entity.Hit
+import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsStatus
+import com.hackernews.app.presentation.adapters.hit.CallBackItemTouch
 import com.hackernews.app.presentation.adapters.hit.HitAdapter
+import com.hackernews.app.presentation.adapters.hit.HitTouchHelper
 import com.hackernews.app.presentation.base.BaseFragment
 import com.hackernews.app.utils.Status
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HitFragment : BaseFragment<FragmentHitBinding>() {
+class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
 
     private val hitViewModel: HitViewModel by viewModel()
-    private var hitEntities: ArrayList<Hit> = arrayListOf()
     private val hitAdapter by lazy {
         HitAdapter(::onHitClickListener)
     }
@@ -58,7 +62,9 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
             adapter = hitAdapter
         }
 
-        hitAdapter.submitList(hitEntities)
+        val callBack: ItemTouchHelper.Callback = HitTouchHelper(this)
+        val itemTouchHelper = ItemTouchHelper(callBack)
+        itemTouchHelper.attachToRecyclerView(binding.rvHits)
     }
 
     /** */
@@ -76,15 +82,6 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
         }
 
     /** */
-    private fun manageGetHitsFailure(failure: GetHitsFailure) {
-        val message: String = when (failure) {
-            is GetHitsFailure.DetailsFailure -> failure.details
-        }
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        setCompleteRefresh()
-    }
-
-    /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
         setDataHitsRecyclerView(hits)
         setCompleteRefresh()
@@ -92,9 +89,7 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
 
     /** */
     private fun setDataHitsRecyclerView(data: List<Hit>) {
-        hitEntities.clear()
-        hitEntities.addAll(data)
-        hitAdapter.notifyDataSetChanged()
+        hitAdapter.submitList(data)
     }
 
     /** */
@@ -108,6 +103,34 @@ class HitFragment : BaseFragment<FragmentHitBinding>() {
     private fun onHitClickListener(hit: Hit) {
         val bundle = bundleOf("hit" to hit)
         findNavController().navigate(R.id.action_hitFragment_to_hitDetailFragment, bundle)
+    }
+
+    /** */
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        hitViewModel.deleteHitAsLiveData(hitAdapter.currentList[position])
+            .observe(viewLifecycleOwner, {
+                when (it) {
+                    is Status.Done -> executeGetHits()
+                    is Status.Failed -> manageDeleteHitFailure(it.failure)
+                }
+            })
+    }
+
+    /** */
+    private fun manageGetHitsFailure(failure: GetHitsFailure) {
+        val message: String = when (failure) {
+            is GetHitsFailure.DetailsFailure -> failure.details
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        setCompleteRefresh()
+    }
+
+    /** */
+    private fun manageDeleteHitFailure(failure: DeleteHitFailure) {
+        val message: String = when (failure) {
+            is DeleteHitFailure.DetailsFailure -> failure.details
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
 }
