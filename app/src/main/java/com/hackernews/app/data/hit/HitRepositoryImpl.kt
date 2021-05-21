@@ -1,5 +1,6 @@
 package com.hackernews.app.data.hit
 
+import android.app.Application
 import com.hackernews.app.data.hit.data_source.local.HitDataSourceLocal
 import com.hackernews.app.data.hit.data_source.remote.HitDataSourceRemote
 import com.hackernews.app.domain.hit.HitRepository
@@ -9,11 +10,13 @@ import com.hackernews.app.domain.hit.uses_case.delete_hits.DeleteHitResponse
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsFailure
 import com.hackernews.app.domain.hit.uses_case.get_hits.GetHitsResponse
 import com.hackernews.app.utils.Either
+import com.hackernews.app.utils.Network
 import com.hackernews.app.utils.onRight
 import com.hackernews.network.repository.NetworkConnectionRepository
 
 /** */
 class HitRepositoryImpl(
+    private val application: Application,
     private val hitDataSourceLocal: HitDataSourceLocal,
     private val hitDataSourceRemote: HitDataSourceRemote,
     networkConnectionRepository: NetworkConnectionRepository,
@@ -22,7 +25,7 @@ class HitRepositoryImpl(
 
     /** */
     override suspend fun getHits(): Either<GetHitsFailure, GetHitsResponse> {
-        if (isOnline) {
+        if (Network.hasInternetConnection(application)) {
             hitDataSourceRemote.getHits().onRight { hitDataSourceLocal.saveHits(it.hits) }
         }
         return hitDataSourceLocal.getHits()
