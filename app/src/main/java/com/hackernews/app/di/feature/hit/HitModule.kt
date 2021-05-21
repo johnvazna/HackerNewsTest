@@ -33,6 +33,7 @@ val hitModule: Module = module {
     /** REPOSITORY **/
     single<HitRepository> {
         HitRepositoryImpl(
+            androidApplication(),
             hitDataSourceLocal = get(),
             hitDataSourceRemote = get(),
             networkConnectionRepository = get(),
