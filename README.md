@@ -4,6 +4,17 @@ Application where the developers from the Android can see the last news.
 
 ## Start 🚀
 
+## Requirements
+
+* Android Studio - Lastest version.
+* Kotlin - 1.3.2.
+
+## Installation
+Clone this repository and import into **Android Studio**
+```bash
+git clone https://github.com/johnvazna/HackerNewsTest.git
+```
+
 ## Builded with 🛠️
 
 * [Kotlin](https://kotlinlang.org/) - Language.
