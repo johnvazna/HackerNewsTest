@@ -2,6 +2,7 @@ package com.hackernews.app.presentation.hit
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -33,19 +34,17 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
             FragmentHitBinding = FragmentHitBinding.inflate(inflater, container, false)
 
     override fun setupViews() {
-        setupActions()
         setupAdapters()
         executeGetHits()
+        setupPullToRefresh()
     }
 
     /** */
-    private fun setupActions() {
-        binding.swipeView.setOnRefreshListener(::onRefreshSwipeListener)
-    }
-
-    /** */
-    private fun onRefreshSwipeListener() {
-        executeGetHits()
+    private fun setupPullToRefresh() {
+        binding.swipeView.setOnRefreshListener {
+            binding.swipeView.isRefreshing = true
+            executeGetHits()
+        }
     }
 
     /** */
@@ -75,27 +74,25 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
     private fun setHitsStatusObserver() =
         Observer<GetHitsStatus> {
             when (it) {
-                is Status.Done -> manageGetHitsDone(it.value.hits)
+                is Status.Loading -> {
+                    if (!binding.swipeView.isRefreshing) {
+                        showProgressBar()
+                    }
+                }
                 is Status.Failed -> manageGetHitsFailure(it.failure)
+                is Status.Done -> manageGetHitsDone(it.value.hits)
             }
         }
 
     /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
         setDataHitsRecyclerView(hits)
-        setCompleteRefresh()
+        hideProgressBar()
     }
 
     /** */
     private fun setDataHitsRecyclerView(data: List<Hit>) {
         hitAdapter.submitList(data)
-    }
-
-    /** */
-    private fun setCompleteRefresh() {
-        if (binding.swipeView.isRefreshing) {
-            binding.swipeView.isRefreshing = false
-        }
     }
 
     /** */
@@ -122,7 +119,7 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
             is GetHitsFailure.DetailsFailure -> failure.details
         }
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        setCompleteRefresh()
+        hideProgressBar()
     }
 
     /** */
@@ -131,6 +128,20 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
             is DeleteHitFailure.DetailsFailure -> failure.details
         }
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    /** */
+    private fun showProgressBar() {
+        binding.pbProgress.visibility = View.VISIBLE
+    }
+
+    /** */
+    private fun hideProgressBar() {
+        if(binding.swipeView.isRefreshing) {
+            binding.swipeView.isRefreshing = false
+        }
+
+        binding.pbProgress.visibility = View.GONE
     }
 
 }
