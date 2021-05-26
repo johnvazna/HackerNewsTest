@@ -21,6 +21,7 @@ import com.hackernews.app.presentation.adapters.hit.HitTouchHelper
 import com.hackernews.app.presentation.base.BaseFragment
 import com.hackernews.app.presentation.detail.HitDetailActivity
 import com.hackernews.app.utils.Status
+import kotlinx.android.synthetic.main.fragment_hit.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
@@ -86,7 +87,12 @@ class HitFragment : BaseFragment<FragmentHitBinding>(), CallBackItemTouch {
 
     /** */
     private fun manageGetHitsDone(hits: List<Hit>) {
-        setDataHitsRecyclerView(hits)
+        if (hits.isNotEmpty()) {
+            setDataHitsRecyclerView(hits)
+        } else {
+            tvEmptyMessage.visibility = View.VISIBLE
+        }
+
         hideProgressBar()
     }
 
