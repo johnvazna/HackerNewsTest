@@ -8,4 +8,7 @@
     <string name="item_delete">Delete</string>
     <string name="item_crated_at">- %s</string>
     
+    <!-- Messages -->
+    <string name="not_news">For the moment\n nas no news</string>
+    
 </resources>
